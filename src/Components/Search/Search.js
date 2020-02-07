@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import axios from 'axios';
 import ImageResults from '../ImageResults/ImageResults';
 
 class Search extends Component {
@@ -12,30 +11,67 @@ class Search extends Component {
         amount: 15,
         apiUrl: 'https://pixabay.com/api',
         apiKey: '15164621-e9e63a50c846d79421bd72c77',
-        images: []
+        images: [],
+        error: false,
+        isLoading: true
+    }
+
+    componentDidMount() {
+
+        const randomWords = require('random-words')
+        fetch(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${randomWords(1)[0]}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Something went wrong ...');
+                }
+            })
+            .then(data => this.setState({ images: data.hits, isLoading: false }))
+            .catch(error => this.setState({ error: true, isLoading: false }));
     }
 
     onTextChange = (e) => {
         const val = e.target.value;
         this.setState({ [e.target.name]: val }, () => {
             if (val === '') { this.setState({ images: [] }) } else {
-
-                axios.get(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
-                    .then(res => this.setState({ images: res.data.hits }))
-                    .catch(console.log("err"))
+                fetch(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Something went wrong ...');
+                        }
+                    })
+                    .then(data => this.setState({ images: data.hits, isLoading: false }))
+                    .catch(error => this.setState({ error: true, isLoading: false }));
             }
         }
         )
     }
 
     onAmountChange = (e, index, val) => {
-        this.setState({ amount: val })
+        this.setState({ amount: val }, () => {
+            if (this.state.searchText) {
+                fetch(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Something went wrong ...');
+                        }
+                    })
+                    .then(data => this.setState({ images: data.hits, isLoading: false }))
+                    .catch(error => this.setState({ error: true, isLoading: false }))
+            }
+        })
+
     }
 
     render() {
 
         return (
-            <div>
+            <div className="container">
                 <TextField name="searchText" value={this.state.searchText} onChange={this.onTextChange} floatingLabelText="search for images" fullWidth={true} />
                 <br />
                 <SelectField name="amount" floatingLabelText="Amount" value={this.state.amount} onChange={this.onAmountChange}>

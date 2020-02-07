@@ -28,10 +28,10 @@ class ImageResults extends Component {
 
         if (images) {
             imageList = (
-                <GridList cols={3}>
+                <GridList cellHeight={220} cols={3} >
                     {images.map(img => (
                         <GridTile title={img.tags} key={img.id} subtitle={
-                            <span>by <stron>{img.user}</stron></span>}
+                            <span>by <strong>{img.user}</strong></span>}
                             actionIcon={<IconButton onClick={() => this.handleOpen(img.largeImageURL)}><ZoomIn color="white" /></IconButton>}>
                             <img src={img.largeImageURL} alt={img.tags} />
                         </GridTile>
