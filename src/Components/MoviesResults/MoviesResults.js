@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -15,83 +15,97 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
+    root: {
+        maxWidth: 345,
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
+    avatar: {
+        backgroundColor: red[500],
+    },
 }));
 
 function MoviesResults(props) {
-  const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+    const classes = useStyles();
+    const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
-  return (
-    <Card className={classes.root}>
-      <CardHeader
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+    const [reviews, setReviews] = React.useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            setReviews(
+                await fetch(`https://api.themoviedb.org/3/movie/${props.id}/reviews?api_key=fdfd76b83d61c6a42b476b1cf05cc0d8&language=en-US&page=1`)
+                    .then(res => res.json())
+                    .then(res => res.results)
+                    .catch(err => console.log(err, "something went wrong"))
+            )
         }
-        title={props.title}
-        subheader={props.date}
-      />
-      <CardMedia
-        className={classes.media}
-        image={props.image}
-        title="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-        {props.overview}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-       <span style={{color:"rgba(0, 0, 0, 0.54)"}}>{props.vote}</span>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Overview:</Typography>
-          <Typography paragraph>
-          
-          </Typography>
-        </CardContent>
-      </Collapse>
-    </Card>
-  );
+        fetchData();
+    }, [])
+
+    const [like, setLike] = React.useState(false)
+
+    return (
+        <Card className={classes.root}>
+            <CardHeader
+                action={
+                    <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                    </IconButton>
+                }
+                title={props.title}
+                subheader={props.date}
+            />
+            <CardMedia
+                className={classes.media}
+                image={props.image}
+                title="movie image"
+            />
+            <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {props.overview}
+                </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites" onClick={()=> setLike(!like)}>
+                    <FavoriteIcon style={like? {color:"rgb(255, 64, 128)"} : null} />
+                </IconButton>
+                <span style={{ color: "rgba(0, 0, 0, 0.54)" }}>{props.vote}</span>
+                <IconButton
+                    className={clsx(classes.expand, {
+                        [classes.expandOpen]: expanded,
+                    })}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                >
+                    <ExpandMoreIcon />
+                </IconButton>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <Typography paragraph>Reviews:</Typography>
+                    {reviews.map(review => <Typography paragraph key={review.id}>{review.author}</Typography>)}
+                </CardContent>
+            </Collapse>
+        </Card>
+    );
 }
 
 export default MoviesResults;
