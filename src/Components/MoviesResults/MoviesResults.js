@@ -12,7 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MoviesReview from '../MoviesReviews/MoviesReviews';
+import MoreMenu from './expandableMenu';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,6 +39,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function MoviesResults(props) {
+
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
 
@@ -59,15 +61,40 @@ function MoviesResults(props) {
         fetchData();
     }, [])
 
-    const [like, setLike] = React.useState(false)
+    const [details, setDetails] = React.useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            setDetails(
+                await fetch(`https://api.themoviedb.org/3/movie/${props.id}?api_key=fdfd76b83d61c6a42b476b1cf05cc0d8&language=en-US`)
+                    .then(res => res.json())
+                    .catch(err => console.log(err, "something went wrong"))
+            )
+        }
+        fetchData();
+    }, [])
+
+    const [like, setLike] = React.useState(false);
+
+    const likeMovie = () => {
+
+        setLike(!like);
+        // if (!like) {
+        //     fetch(`https://api.themoviedb.org/3/movie/${props.id}/rating?api_key=fdfd76b83d61c6a42b476b1cf05cc0d8`, {
+        //         method: 'POST',
+        //         headers: {'Content-Type':'application/json;charset=utf-8'},
+        //         body: {"value": 8.5}
+        //     }).then(function (response) {
+        //         return response.json();
+        //     })
+        // }
+    }
 
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root} key={props.id}>
             <CardHeader
                 action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
+                    <MoreMenu details={details} id={props.id} />
                 }
                 title={props.title}
                 subheader={props.date}
@@ -83,8 +110,8 @@ function MoviesResults(props) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites" onClick={()=> setLike(!like)}>
-                    <FavoriteIcon style={like? {color:"rgb(255, 64, 128)"} : null} />
+                <IconButton aria-label="add to favorites" onClick={likeMovie}>
+                    <FavoriteIcon style={like ? { color: "rgb(255, 64, 128)" } : null} />
                 </IconButton>
                 <span style={{ color: "rgba(0, 0, 0, 0.54)" }}>{props.vote}</span>
                 <IconButton
@@ -101,7 +128,8 @@ function MoviesResults(props) {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography paragraph>Reviews:</Typography>
-                    {reviews.map(review => <Typography paragraph key={review.id}>{review.author}</Typography>)}
+                    {reviews.length ? "" : <Typography paragraph>No reviews</Typography>}
+                    {reviews.map(review => <MoviesReview key={review.id} author={review.author} id={review.id} content={review.content} />)}
                 </CardContent>
             </Collapse>
         </Card>
@@ -109,3 +137,12 @@ function MoviesResults(props) {
 }
 
 export default MoviesResults;
+
+
+
+
+
+
+
+
+

@@ -19,3 +19,18 @@ div.MuiTabs-root{
 a.MuiTab-root{
     min-height: 64px;
 }
+
+.read_more_button{
+    color: grey;
+    text-transform: capitalize;
+}
+
+.read_more_button:hover{
+    cursor:pointer;
+}
+
+.homepage_link{
+    text-decoration: none;
+    color:grey;
+    width:100%;
+}

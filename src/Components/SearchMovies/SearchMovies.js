@@ -43,8 +43,6 @@ class SearchMovies extends Component {
                 {this.state.movies.length > 0 ? movies.map(movie => <Grid key={movie.id} item xs={12} sm={6} md={4} lg={4} xl={3}><MoviesResults title={movie.title} vote={movie.vote_average} overview={movie.overview} date={"Released "+movie.release_date} id={movie.id} image={"https://image.tmdb.org/t/p/w500"+movie.poster_path}/></Grid> ): null}
                 </Grid>
             </div>
-            
-
         )
     }
 }
