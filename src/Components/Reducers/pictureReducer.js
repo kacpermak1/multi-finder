@@ -10,7 +10,7 @@ const initState = {
 
 const pictureReducer = (state = initState, action) => {
 
-    if (action.type === 'KEYWORD') {
+    if (action.type === 'PICTURE_KEYWORD') {
         return {
             ...state,
             pictureKeyword: action.keyword,

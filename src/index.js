@@ -5,11 +5,14 @@ import * as serviceWorker from './serviceWorker';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './main.css';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import pictureReducer from './Components/Reducers/pictureReducer'
+import { createStore, combineReducers } from 'redux';
+import pictureReducer from './Components/Reducers/pictureReducer';
+import movieReducer from './Components/Reducers/movieReducer';
+
+const reducers = combineReducers({pictureReducer, movieReducer})
 
 const store = createStore(
-    pictureReducer,
+    reducers,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 

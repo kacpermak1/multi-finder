@@ -1,8 +1,16 @@
-export const typeKeyword = (keyword, amount, images) => {
+export const typePicture = (keyword, amount, images) => {
     return {
-        type: "KEYWORD",
+        type: "PICTURE_KEYWORD",
         keyword,
         amount,
         images
+    }
+}
+
+export const typeMovie = (keyword, movies) => {
+    return {
+        type: "MOVIE_KEYWORD",
+        keyword,
+        movies
     }
 }

@@ -4,7 +4,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import ImageResults from '../ImageResults/ImageResults';
 import { connect } from 'react-redux';
-import { typeKeyword } from '../Actions/index';
+import { typePicture } from '../Actions/index';
 
 class Search extends Component {
 
@@ -17,33 +17,29 @@ class Search extends Component {
 
         if (this.props.images.length < 1) {
 
-            fetch(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.props.keyword}&image_type=photo&per_page=${this.props.amount}&safesearch=true`)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Something went wrong ...');
-                    }
-                })
-                .then(data => this.props.typeKeyword(this.props.keyword, this.props.amount, data.hits))
-                .catch(error => console.log("error: " + error));
+            this.fetchData();
+            this.props.typeKeyword('', this.props.amount, this.props.images)
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        
+
         if (prevProps.keyword !== this.props.keyword || prevProps.amount !== this.props.amount) {
-            fetch(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.props.keyword}&image_type=photo&per_page=${this.props.amount}&safesearch=true`)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Something went wrong ...');
-                    }
-                })
-                .then(data => this.props.typeKeyword(this.props.keyword, this.props.amount, data.hits))
-                .catch(error => console.log("error: " + error));
+            this.fetchData();
         }
+    }
+
+    fetchData() {
+        fetch(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.props.keyword}&image_type=photo&per_page=${this.props.amount}&safesearch=true`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Something went wrong ...');
+                }
+            })
+            .then(data => this.props.typeKeyword(this.props.keyword, this.props.amount, data.hits))
+            .catch(error => console.log("error: " + error));
     }
 
     onTextChange = (e) => {
@@ -79,18 +75,16 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        keyword: state.pictureKeyword,
-        amount: state.picturesAmount,
-        images: state.pictures
+        keyword: state.pictureReducer.pictureKeyword,
+        amount: state.pictureReducer.picturesAmount,
+        images: state.pictureReducer.pictures
     }
 }
-
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        typeKeyword: (keyword, amount, images) => { dispatch(typeKeyword(keyword, amount, images)) },
+        typeKeyword: (keyword, amount, images) => { dispatch(typePicture(keyword, amount, images)) },
     }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);
