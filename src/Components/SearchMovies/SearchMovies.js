@@ -66,9 +66,10 @@ class SearchMovies extends Component {
             <div className="container">
                 <TextField name="searchTitle" value={this.props.keyword} onClick={this.onSearchBarClick} onChange={this.onTitleChange} floatingLabelText="search for movies" fullWidth={true} />
                 <br />
+                {(typeof this.props.movies !== 'undefined')&&
                 <Grid container spacing={10} style={{ padding: '20px' }}>
                     {this.props.movies.length > 0 ? movies.map(movie => <Grid key={movie.id} item xs={12} sm={6} md={4} lg={4} xl={3}><MoviesResults title={movie.title} vote={movie.vote_average} overview={movie.overview} date={"Released " + movie.release_date} id={movie.id} image={"https://image.tmdb.org/t/p/w500" + movie.poster_path} /></Grid>) : null}
-                </Grid>
+                </Grid>}
             </div>
             {this.props.movies.length < 1 ? <div style={{ width: "100%", height:"50vh", display: "flex", alignItems: "center", flexDirection:"column", justifyContent: "center" }}><ProgressBar /></div> : null}
             </>

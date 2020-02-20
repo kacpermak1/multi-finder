@@ -34,7 +34,7 @@ function MusicResults(props) {
   useEffect(() => {
     async function fetchData() {
         setLyrics(
-            await fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${props.id}&apikey=22e18bf8a72e7361275d4bb5609e941e`)
+            await fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${props.id}&apikey=15b2899b105a1bef9db3d840c69e3b22`)
                 .then(res => res.json())
                 .then(res => res.message.body.lyrics.lyrics_body)
                 .catch(err => console.log(err))

@@ -74,7 +74,7 @@ function Home(props) {
         <Tabs variant="fullWidth" value={props.currentPage} onChange={handleChange} aria-label="nav tabs example">
           <LinkTab label="Pictures" href="/" {...a11yProps(0)} />
           <LinkTab label="Movies" href="/movies" {...a11yProps(1)} />
-          <LinkTab label="Music" href="/music" {...a11yProps(2)} />
+          <LinkTab label="Song Lyrics" href="/music" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={props.currentPage} index={0}>

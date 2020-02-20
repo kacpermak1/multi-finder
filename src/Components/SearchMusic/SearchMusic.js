@@ -17,7 +17,7 @@ class SearchMusic extends Component {
     }
 
     fetchData = () => {
-        fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=10&country=us&f_has_lyrics=1&apikey=22e18bf8a72e7361275d4bb5609e941e`)
+        fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=10&country=us&f_has_lyrics=1&apikey=15b2899b105a1bef9db3d840c69e3b22`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -30,7 +30,7 @@ class SearchMusic extends Component {
     }
 
     fetchDataOnKeywordChange = () => {
-        fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track_artist=${this.props.keyword}&page_size=10&page=1&s_track_rating=desc&apikey=22e18bf8a72e7361275d4bb5609e941e`)
+        fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track_artist=${this.props.keyword}&page_size=10&page=1&s_track_rating=desc&apikey=15b2899b105a1bef9db3d840c69e3b22`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -65,6 +65,8 @@ class SearchMusic extends Component {
 
         const h2 = this.props.songs ? "Top 10 Songs" : "";
 
+        console.log(typeof this.props.music)
+
         return (
             <div className="container">
                 <TextField name="searchMusic" value={this.props.keyword} onChange={this.handleChange} floatingLabelText="search for music" fullWidth={true} />
@@ -73,8 +75,10 @@ class SearchMusic extends Component {
                 <br />
                 <Grid container spacing={10} style={{ padding: '20px' }}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}><Typography variant="h2">{h2}</Typography></Grid>
-                    {this.props.music.length < 1 ? <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}><Progress /></div> : null}
-                    {this.props.music.map((item, index) => <Grid key={index} item xs={12} sm={6} md={6} lg={6} xl={3}><MusicResults title={item.track.artist_name} id={item.track.track_id} track={item.track.track_name} url={item.track.track_share_url} album={item.track.album_name} /></Grid>)}
+                    {(typeof this.props.music !== 'undefined')&&<>
+                        {this.props.music.length < 1 ? <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}><Progress /></div> : null}
+                        {this.props.music.map((item, index) => <Grid key={index} item xs={12} sm={6} md={6} lg={6} xl={3}><MusicResults title={item.track.artist_name} id={item.track.track_id} track={item.track.track_name} url={item.track.track_share_url} album={item.track.album_name} /></Grid>)}
+                    </>}
                 </Grid>
             </div>
         )

@@ -20,7 +20,7 @@ const images = [
   },
   {
     url: './pictures/3.jpg',
-    title: 'Search for Songs',
+    title: 'Search for Lyrics',
     width: '33.33%',
     value: 2,
   },
