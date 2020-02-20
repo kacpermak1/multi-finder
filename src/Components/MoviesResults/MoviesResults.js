@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -14,6 +14,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoviesReview from '../MoviesReviews/MoviesReviews';
 import MoreMenu from './expandableMenu';
+import Modal from './ModalMovie';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -74,27 +75,37 @@ function MoviesResults(props) {
         fetchData();
     }, [])
 
+    const [cast, setCast] = React.useState([])
+
+    useEffect(() => {
+        async function fetchData() {
+            setCast(
+                await fetch(`https://api.themoviedb.org/3/movie/${props.id}/credits?api_key=fdfd76b83d61c6a42b476b1cf05cc0d8&language=en-US`)
+                    .then(res => res.json())
+                    .catch(err => console.log(err, "something went wrong"))
+            )
+        }
+        fetchData();
+    }, [])
+
     const [like, setLike] = React.useState(false);
 
     const likeMovie = () => {
 
         setLike(!like);
-        // if (!like) {
-        //     fetch(`https://api.themoviedb.org/3/movie/${props.id}/rating?api_key=fdfd76b83d61c6a42b476b1cf05cc0d8`, {
-        //         method: 'POST',
-        //         headers: {'Content-Type':'application/json;charset=utf-8'},
-        //         body: {"value": 8.5}
-        //     }).then(function (response) {
-        //         return response.json();
-        //     })
-        // }
+    }
+    const [dialog, setDialog] = useState(false);
+
+    const handleClick = () => {
+        setDialog(!dialog)
     }
 
     return (
+        <>
         <Card className={classes.root} key={props.id}>
             <CardHeader
                 action={
-                    <MoreMenu details={details} id={props.id} />
+                    <MoreMenu details={details} id={props.id} click={handleClick} />
                 }
                 title={props.title}
                 subheader={props.date}
@@ -133,6 +144,8 @@ function MoviesResults(props) {
                 </CardContent>
             </Collapse>
         </Card>
+        <Modal open={dialog} click={handleClick} id={props.id} cast={cast}/>
+        </>
     );
 }
 

@@ -4,10 +4,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-const options = [
-    'More info'
-];
-
 const ITEM_HEIGHT = 48;
 
 function LongMenu(props) {
@@ -22,6 +18,11 @@ function LongMenu(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleClickMoreInfo = () => {
+        props.click();
+        handleClose();
+    }
 
     return (
         <div>
@@ -45,12 +46,10 @@ function LongMenu(props) {
                         width: 200,
                     },
                 }}
-            >
-                {options.map(option => (
-                    <MenuItem key={option} selected={option === 'More info'} onClick={handleClose}>
-                        <a className="homepage_link" target="blank" href={props.details.homepage}>{option}</a>
-                    </MenuItem>
-                ))}
+            ><MenuItem onClick={handleClickMoreInfo}>Cast</MenuItem>
+                    {props.details.homepage ? <MenuItem onClick={handleClose}>
+                        <a className="homepage_link" target="blank" href={props.details.homepage}>Official Website</a>
+                    </MenuItem> : ''}
             </Menu>
         </div>
     );

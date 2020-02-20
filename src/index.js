@@ -5,11 +5,8 @@ import * as serviceWorker from './serviceWorker';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './main.css';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
-import pictureReducer from './Components/Reducers/pictureReducer';
-import movieReducer from './Components/Reducers/movieReducer';
-
-const reducers = combineReducers({pictureReducer, movieReducer})
+import { createStore } from 'redux';
+import reducers from './Components/Reducers'
 
 const store = createStore(
     reducers,

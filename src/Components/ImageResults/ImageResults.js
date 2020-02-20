@@ -10,7 +10,20 @@ class ImageResults extends Component {
 
     state = {
         open: false,
-        currentImg: ''
+        currentImg: '',
+        window: window.innerWidth
+    }
+
+    componentDidMount(){
+        window.addEventListener('resize', this.handleWindowResize)
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener('resize', this.handleWindowResize)
+    }
+
+    handleWindowResize = () => {
+        this.setState({window: window.innerWidth})
     }
 
     handleOpen = (img) => {
@@ -28,7 +41,7 @@ class ImageResults extends Component {
 
         if (images) {
             imageList = (
-                <GridList cellHeight={220} cols={3} >
+                <GridList cellHeight={220} cols={this.state.window < 640? 1 : 3} >
                     {images.map(img => (
                         <GridTile title={img.tags} key={img.id} subtitle={
                             <span>by <strong>{img.user}</strong></span>}

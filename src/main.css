@@ -34,3 +34,17 @@ a.MuiTab-root{
     color:grey;
     width:100%;
 }
+
+button.MuiButton-contained{
+    background-color: rgb(0,188,212);
+    color:white;
+    margin-right:10px;
+}
+
+button.MuiButton-contained:hover{
+    background-color: rgb(255, 15, 115);
+}
+
+h2.MuiTypography-h2{
+    text-align: center;
+}

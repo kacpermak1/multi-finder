@@ -5,6 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import ImageResults from '../ImageResults/ImageResults';
 import { connect } from 'react-redux';
 import { typePicture } from '../Actions/index';
+import ProgressBar from '../SearchMusic/Progress';
 
 class Search extends Component {
 
@@ -23,8 +24,8 @@ class Search extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-
-        if (prevProps.keyword !== this.props.keyword || prevProps.amount !== this.props.amount) {
+        if (prevProps.keyword !== this.props.keyword && this.props.keyword === '') { return null } else if (
+            prevProps.keyword !== this.props.keyword || prevProps.amount !== this.props.amount) {
             this.fetchData();
         }
     }
@@ -53,11 +54,15 @@ class Search extends Component {
 
     }
 
+    onTextFieldClick = () => {
+        this.props.typeKeyword('', this.props.amount, this.props.images)
+    }
+
     render() {
 
         return (
             <div className="container">
-                <TextField name="searchText" value={this.props.keyword} onChange={this.onTextChange} floatingLabelText="search for images" fullWidth={true} />
+                <TextField name="searchText" value={this.props.keyword} onChange={this.onTextChange} onClick={this.onTextFieldClick} floatingLabelText="search for images" fullWidth={true} />
                 <br />
                 <SelectField name="amount" floatingLabelText="Amount" value={this.props.amount} onChange={this.onAmountChange}>
                     <MenuItem value={5} primaryText="5" />
@@ -68,6 +73,7 @@ class Search extends Component {
                 </SelectField>
                 <br />
                 {this.props.images.length > 0 ? <ImageResults images={this.props.images} /> : null}
+                {this.props.images.length < 1 ? <div style={{ width: "100%", height:"50vh", display: "flex", alignItems: "center", flexDirection:"column", justifyContent: "center" }}><ProgressBar /></div> : null}
             </div>
         )
     }
