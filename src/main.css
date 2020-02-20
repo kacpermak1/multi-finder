@@ -13,6 +13,14 @@ header.MuiAppBar-colorPrimary {
   background-color: rgb(0, 188, 212);
 }
 
+button.MuiButton-textPrimary{
+    color: rgb(0, 188, 212);
+}
+
+a.MuiButton-textPrimary{
+    color: rgb(0, 188, 212);
+}
+
 div.MuiTabs-root {
   min-height: 64px;
 }
@@ -65,3 +73,5 @@ span.MuiTypography-subtitle2 {
   color: white;
   z-index: 100000;
 }
+
+
