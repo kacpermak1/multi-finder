@@ -9,6 +9,8 @@ import Box from '@material-ui/core/Box';
 import Search from '../Search/Search';
 import SearchMovies from '../SearchMovies/SearchMovies';
 import SearchMusic from '../SearchMusic/SearchMusic';
+import { connect } from 'react-redux';
+import {changePage} from '../Actions';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,34 +61,45 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NavTabs() {
+function Home(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    props.change(newValue);
   };
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="nav tabs example">
+        <Tabs variant="fullWidth" value={props.currentPage} onChange={handleChange} aria-label="nav tabs example">
           <LinkTab label="Pictures" href="/" {...a11yProps(0)} />
           <LinkTab label="Movies" href="/movies" {...a11yProps(1)} />
           <LinkTab label="Music" href="/music" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={props.currentPage} index={0}>
           <Search/>
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={props.currentPage} index={1}>
           <SearchMovies/>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={props.currentPage} index={2}>
           <SearchMusic/>
       </TabPanel>
     </div>
   );
 }
 
-export default NavTabs
+const mapDispatchToProps = (dispatch) => {
+    return {
+        change: (id) => { dispatch(changePage(id)) },
+    }
+}
+
+const mapStateToProps = (state) => {
+    return{
+        currentPage: state.appReducer.currentPage
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

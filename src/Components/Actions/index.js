@@ -28,3 +28,10 @@ export const topSongs = () => {
         type: "TOP_SONGS",
     }
 }
+
+export const changePage = (id) => {
+    return {
+        type: "CHANGE_PAGE",
+        id
+    }
+}

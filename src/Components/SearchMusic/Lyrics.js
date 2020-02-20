@@ -7,8 +7,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 function ScrollDialog(props) {
-    const [open, setOpen] = React.useState(false);
-    const [scroll, setScroll] = React.useState('paper');
+    const [open] = React.useState(false);
+    const [scroll] = React.useState('paper');
 
     const descriptionElementRef = React.useRef(null);
     React.useEffect(() => {

@@ -24,8 +24,8 @@ export default function AlignItemsList(props) {
 
   return (
     <List className={classes.root}>
-        {props.cast.cast.map(person=>{return (
-        <>
+        {props.cast.cast.map((person, index) => { return (
+        <div key={index}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Avatar alt="star pic" src={"https://image.tmdb.org/t/p/w500" + person.profile_path} />
@@ -47,7 +47,7 @@ export default function AlignItemsList(props) {
         />
       </ListItem>
       <Divider variant="inset" component="li" />
-        </>)})}
+        </div>)})}
     </List>
   );
 }

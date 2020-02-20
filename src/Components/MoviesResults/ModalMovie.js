@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,8 +8,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Cast from './Cast';
 
 function ScrollDialog(props) {
-    const [open, setOpen] = React.useState(false);
-    const [scroll, setScroll] = React.useState('paper');
+    const [open] = React.useState(false);
+    const [scroll] = React.useState('paper');
 
     const descriptionElementRef = React.useRef(null);
     React.useEffect(() => {
@@ -20,8 +20,6 @@ function ScrollDialog(props) {
             }
         }
     }, [open]);
-
-    
 
     return (
         <div>

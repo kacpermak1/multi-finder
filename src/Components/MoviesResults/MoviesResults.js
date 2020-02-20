@@ -60,11 +60,12 @@ function MoviesResults(props) {
             )
         }
         fetchData();
-    }, [])
+    }, [props.id])
 
     const [details, setDetails] = React.useState([])
 
     useEffect(() => {
+
         async function fetchData() {
             setDetails(
                 await fetch(`https://api.themoviedb.org/3/movie/${props.id}?api_key=fdfd76b83d61c6a42b476b1cf05cc0d8&language=en-US`)
@@ -73,7 +74,8 @@ function MoviesResults(props) {
             )
         }
         fetchData();
-    }, [])
+
+    }, [props.id])
 
     const [cast, setCast] = React.useState([])
 
@@ -86,7 +88,7 @@ function MoviesResults(props) {
             )
         }
         fetchData();
-    }, [])
+    }, [props.id])
 
     const [like, setLike] = React.useState(false);
 

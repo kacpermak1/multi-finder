@@ -1,8 +1,6 @@
-const randomWords = require('random-words')
-
 const initState = {
 
-    movieKeyword: randomWords(1)[0],
+    movieKeyword: '',
     movies: []
 
 }

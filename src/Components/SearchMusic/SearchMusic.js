@@ -17,7 +17,7 @@ class SearchMusic extends Component {
     }
 
     fetchData = () => {
-        fetch(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=10&country=us&f_has_lyrics=1&apikey=22e18bf8a72e7361275d4bb5609e941e`)
+        fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=10&country=us&f_has_lyrics=1&apikey=22e18bf8a72e7361275d4bb5609e941e`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -30,7 +30,7 @@ class SearchMusic extends Component {
     }
 
     fetchDataOnKeywordChange = () => {
-        fetch(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track_artist=${this.props.keyword}&page_size=10&page=1&s_track_rating=desc&apikey=22e18bf8a72e7361275d4bb5609e941e`)
+        fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track_artist=${this.props.keyword}&page_size=10&page=1&s_track_rating=desc&apikey=22e18bf8a72e7361275d4bb5609e941e`)
             .then(response => {
                 if (response.ok) {
                     return response.json();

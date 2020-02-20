@@ -1,11 +1,21 @@
 import React from 'react';
-import Navbar from './Components/Navbar/Navbar';
+import Home from './Components/Home/Home';
+import LandingPage from './Components/LandingPage/LandingPage';
+import { connect } from 'react-redux';
 
-const App = () => {
+const App = (props) => {
   return (
-
-      <Navbar />
+    <>
+      {(props.currentPage === -1)&&<LandingPage />}
+      {(props.currentPage > -1)&&<Home />}
+    </>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return{
+    currentPage: state.appReducer.currentPage
+  }
+}
+
+export default connect(mapStateToProps)(App);

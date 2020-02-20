@@ -34,14 +34,14 @@ function MusicResults(props) {
   useEffect(() => {
     async function fetchData() {
         setLyrics(
-            await fetch(`https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${props.id}&apikey=22e18bf8a72e7361275d4bb5609e941e`)
+            await fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=${props.id}&apikey=22e18bf8a72e7361275d4bb5609e941e`)
                 .then(res => res.json())
                 .then(res => res.message.body.lyrics.lyrics_body)
-                .catch(err => console.log(err, "something went wrong"))
+                .catch(err => console.log(err))
         )
     }
     fetchData();
-}, [])
+}, [props.id])
 
   const handleClick = () => {
       setDialog(!dialog)

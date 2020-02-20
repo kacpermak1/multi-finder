@@ -10,7 +10,7 @@ class SearchMovies extends Component {
 
     componentDidMount() {
         if (this.props.movies.length < 1) {
-            this.fetchData();
+            this.fetchTrendingMovies();
             this.props.typeMovie('', this.props.movies);
         }
     }
@@ -24,6 +24,19 @@ class SearchMovies extends Component {
 
     fetchData = () => {
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=fdfd76b83d61c6a42b476b1cf05cc0d8&query=${this.props.keyword}`)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Something went wrong ...');
+                }
+            })
+            .then(data => this.props.typeMovie(this.props.keyword, data.results))
+            .catch(error => console.log(error));
+    }
+
+    fetchTrendingMovies = () => {
+        fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=fdfd76b83d61c6a42b476b1cf05cc0d8`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
