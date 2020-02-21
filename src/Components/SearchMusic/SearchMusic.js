@@ -17,7 +17,7 @@ class SearchMusic extends Component {
     }
 
     fetchData = () => {
-        fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=10&country=us&f_has_lyrics=1&apikey=15b2899b105a1bef9db3d840c69e3b22`)
+        fetch(`https://infinite-river-10904.herokuapp.com/http://api.musixmatch.com/ws/1.1/chart.tracks.get?page=1&page_size=10&country=uk&f_has_lyrics=1&apikey=15b2899b105a1bef9db3d840c69e3b22`)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -64,8 +64,6 @@ class SearchMusic extends Component {
     render() {
 
         const h2 = this.props.songs ? "Top 10 Songs" : "";
-
-        console.log(typeof this.props.music)
 
         return (
             <div className="container">
