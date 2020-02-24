@@ -10,7 +10,7 @@ import Progress from './Progress';
 
 class SearchMusic extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
         if (this.props.music.length < 1) {
             this.fetchData()
         }
