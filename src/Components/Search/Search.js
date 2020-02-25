@@ -22,7 +22,19 @@ class Search extends Component {
             this.fetchData();
             this.props.typeKeyword('', this.props.amount, this.props.images)
         }
+
+        window.addEventListener('scroll', this.onScroll());
     }
+
+   onScroll = () => {
+ window.onscroll = debounce(() => {
+        if (
+          window.innerHeight + document.documentElement.scrollTop
+          === document.documentElement.offsetHeight
+        ) {
+            this.props.typeKeyword(this.props.keyword, this.props.amount + 10, this.props.images)
+        }
+      }, 100);}
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.keyword !== this.props.keyword && this.props.keyword === '') { return null } else if (
