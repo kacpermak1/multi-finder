@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/multiSearchApp/static/css/main.e4c19e2e.chunk.css",
-    "main.js": "/multiSearchApp/static/js/main.ff2e20fa.chunk.js",
-    "main.js.map": "/multiSearchApp/static/js/main.ff2e20fa.chunk.js.map",
+    "main.js": "/multiSearchApp/static/js/main.b0be7540.chunk.js",
+    "main.js.map": "/multiSearchApp/static/js/main.b0be7540.chunk.js.map",
     "runtime-main.js": "/multiSearchApp/static/js/runtime-main.07f15e50.js",
     "runtime-main.js.map": "/multiSearchApp/static/js/runtime-main.07f15e50.js.map",
-    "static/js/2.84c07a8a.chunk.js": "/multiSearchApp/static/js/2.84c07a8a.chunk.js",
-    "static/js/2.84c07a8a.chunk.js.map": "/multiSearchApp/static/js/2.84c07a8a.chunk.js.map",
+    "static/js/2.afef7135.chunk.js": "/multiSearchApp/static/js/2.afef7135.chunk.js",
+    "static/js/2.afef7135.chunk.js.map": "/multiSearchApp/static/js/2.afef7135.chunk.js.map",
     "index.html": "/multiSearchApp/index.html",
-    "precache-manifest.301cb0ba064c4fa46d2bb4c9110eb131.js": "/multiSearchApp/precache-manifest.301cb0ba064c4fa46d2bb4c9110eb131.js",
+    "precache-manifest.fcb04f25420bd757bc7f095f8a522628.js": "/multiSearchApp/precache-manifest.fcb04f25420bd757bc7f095f8a522628.js",
     "service-worker.js": "/multiSearchApp/service-worker.js",
     "static/css/main.e4c19e2e.chunk.css.map": "/multiSearchApp/static/css/main.e4c19e2e.chunk.css.map",
-    "static/js/2.84c07a8a.chunk.js.LICENSE.txt": "/multiSearchApp/static/js/2.84c07a8a.chunk.js.LICENSE.txt"
+    "static/js/2.afef7135.chunk.js.LICENSE.txt": "/multiSearchApp/static/js/2.afef7135.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.07f15e50.js",
-    "static/js/2.84c07a8a.chunk.js",
+    "static/js/2.afef7135.chunk.js",
     "static/css/main.e4c19e2e.chunk.css",
-    "static/js/main.ff2e20fa.chunk.js"
+    "static/js/main.b0be7540.chunk.js"
   ]
 }
