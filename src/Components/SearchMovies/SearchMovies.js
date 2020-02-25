@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { typeMovie } from '../Actions/index';
 import { connect } from 'react-redux';
 import ProgressBar from '../SearchMusic/Progress';
+import {debounce} from 'lodash';
 
 class SearchMovies extends Component {
 
@@ -18,8 +19,12 @@ class SearchMovies extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.keyword !== this.props.keyword && this.props.keyword === '') { return null } else if (
             prevProps.keyword !== this.props.keyword) {
-            this.fetchData();
+            this.fetchData()
         }
+    }
+
+    componentWillUnmount(){
+        this.onTitleChange.cancel()
     }
 
     fetchData = () => {
@@ -48,13 +53,13 @@ class SearchMovies extends Component {
             .catch(error => console.log(error));
     }
 
-    onTitleChange = (e) => {
-        const val = e.target.value;
-        this.props.typeMovie(val, this.props.movies)
-    }
+    onTitleChange = debounce((text) => {
+        this.props.typeMovie(text, this.props.movies);
+    },500)
 
-    onSearchBarClick = () => {
+    onSearchBarClick = (e) => {
         this.props.typeMovie('', this.props.movies)
+        e.target.value = '';
     }
 
     render() {
@@ -63,15 +68,15 @@ class SearchMovies extends Component {
 
         return (
             <>
-            <div className="container">
-                <TextField name="searchTitle" value={this.props.keyword} onClick={this.onSearchBarClick} onChange={this.onTitleChange} floatingLabelText="search for movies" fullWidth={true} />
-                <br />
-                {(typeof this.props.movies !== 'undefined')&&
-                <Grid container spacing={10} style={{ padding: '20px' }}>
-                    {this.props.movies.length > 0 ? movies.map(movie => <Grid key={movie.id} item xs={12} sm={6} md={4} lg={4} xl={3}><MoviesResults title={movie.title} vote={movie.vote_average} overview={movie.overview} date={"Released " + movie.release_date} id={movie.id} image={"https://image.tmdb.org/t/p/w500" + movie.poster_path} /></Grid>) : null}
-                </Grid>}
-            </div>
-            {this.props.movies.length < 1 ? <div style={{ width: "100%", height:"50vh", display: "flex", alignItems: "center", flexDirection:"column", justifyContent: "center" }}><ProgressBar /></div> : null}
+                <div className="container">
+                    <TextField name="searchTitle" onClick={this.onSearchBarClick} onChange={e => this.onTitleChange(e.target.value)} floatingLabelText="search for movies" fullWidth={true} />
+                    <br />
+                    {(typeof this.props.movies !== 'undefined') &&
+                        <Grid container spacing={10} style={{ padding: '20px' }}>
+                            {this.props.movies.length > 0 ? movies.map(movie => <Grid key={movie.id} item xs={12} sm={6} md={4} lg={4} xl={3}><MoviesResults title={movie.title} vote={movie.vote_average} overview={movie.overview} date={"Released " + movie.release_date} id={movie.id} image={"https://image.tmdb.org/t/p/w500" + movie.poster_path} /></Grid>) : null}
+                        </Grid>}
+                </div>
+                {this.props.movies.length < 1 ? <div style={{ width: "100%", height: "50vh", display: "flex", alignItems: "center", flexDirection: "column", justifyContent: "center" }}><ProgressBar /></div> : null}
             </>
         )
     }

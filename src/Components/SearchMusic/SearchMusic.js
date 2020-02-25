@@ -7,7 +7,6 @@ import MusicResults from './MusicResults';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Progress from './Progress';
-
 class SearchMusic extends Component {
 
     componentWillMount() {

@@ -6,6 +6,7 @@ import ImageResults from '../ImageResults/ImageResults';
 import { connect } from 'react-redux';
 import { typePicture } from '../Actions/index';
 import ProgressBar from '../SearchMusic/Progress';
+import {debounce} from 'lodash';
 
 class Search extends Component {
 
@@ -30,6 +31,10 @@ class Search extends Component {
         }
     }
 
+    componentWillUnmount(){
+        this.onTextChange.cancel()
+    }
+
     fetchData() {
         fetch(`${this.state.apiUrl}/?key=${this.state.apiKey}&q=${this.props.keyword}&image_type=photo&per_page=${this.props.amount}&safesearch=true`)
             .then(response => {
@@ -43,10 +48,9 @@ class Search extends Component {
             .catch(error => console.log("error: " + error));
     }
 
-    onTextChange = (e) => {
-        const val = e.target.value;
-        this.props.typeKeyword(val, this.props.amount, this.props.images)
-    }
+    onTextChange = debounce((text) => {
+        this.props.typeKeyword(text, this.props.amount, this.props.images)
+    },500)
 
     onAmountChange = (e, index, val) => {
 
@@ -54,15 +58,16 @@ class Search extends Component {
 
     }
 
-    onTextFieldClick = () => {
+    onTextFieldClick = (e) => {
         this.props.typeKeyword('', this.props.amount, this.props.images)
+        e.target.value='';
     }
 
     render() {
 
         return (
             <div className="container">
-                <TextField name="searchText" value={this.props.keyword} onChange={this.onTextChange} onClick={this.onTextFieldClick} floatingLabelText="search for images" fullWidth={true} />
+                <TextField name="searchText" onChange={e=>this.onTextChange(e.target.value)} onClick={this.onTextFieldClick} floatingLabelText="search for images" fullWidth={true} />
                 <br />
                 <SelectField name="amount" floatingLabelText="Amount" value={this.props.amount} onChange={this.onAmountChange}>
                     <MenuItem value={5} primaryText="5" />
